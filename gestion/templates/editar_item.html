@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar {{ modelo }}</title>
+</head>
+<body>
+    <h1>Editar {{ modelo|capfirst }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!-- Checkboxes -->
+        <div>
+            <label><input type="checkbox" name="completado" id="completado" {% if completado %}checked{% endif %}> Completado</label><br>
+            <label><input type="checkbox" name="proceso" id="proceso" {% if proceso %}checked{% endif %}> En Proceso</label><br>
+            <label><input type="checkbox" name="pendiente" id="pendiente" {% if pendiente %}checked{% endif %}> Pendiente</label><br>
+            <label><input type="checkbox" name="retrasado" id="retrasado" {% if retrasado %}checked{% endif %}> Retrasado</label><br>
+        </div>
+
+        <button type="submit">Guardar cambios</button>
+        <a href="{% url 'dashboard' %}">Cancelar</a>
+    </form>
+</body>
+</html>

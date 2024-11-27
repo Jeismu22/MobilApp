@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .icon {
+            cursor: pointer;
+            margin: 20px;
+            display: inline-block;
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+            border: 2px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+        .close-modal {
+            text-decoration: none;
+            color: red;
+            font-size: 18px;
+            float: right;
+        }
+
+        .form-section {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 15px;
+        }
+
+        .options-button {
+            cursor: pointer;
+            color: #007BFF;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Gestión de Proyectos</h1>
+
+    <!-- Iconos para abrir modales -->
+    <a href="#modal-carpeta" class="icon">🗂 Crear Carpeta</a>
+    <a href="#modal-proyecto" class="icon">📁 Crear Proyecto</a>
+    <a href="#modal-tarea" class="icon">✅ Crear Tarea</a>
+
+    <!-- Modal Crear Carpeta -->
+    <div id="modal-carpeta" class="modal">
+        <div class="modal-content">
+            <a href="#" class="close-modal">&times;</a>
+            <h2>Crear Carpeta</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ carpeta_form.as_p }}
+                <button type="submit" name="crear_carpeta">Crear Carpeta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Crear Proyecto -->
+    <div id="modal-proyecto" class="modal">
+        <div class="modal-content">
+            <a href="#" class="close-modal">&times;</a>
+            <h2>Crear Proyecto</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ proyecto_form.as_p }}
+                <button type="submit" name="crear_proyecto">Crear Proyecto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Crear Tarea -->
+    <div id="modal-tarea" class="modal">
+        <div class="modal-content">
+            <a href="#" class="close-modal">&times;</a>
+            <h2>Crear Tarea</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ tarea_form.as_p }}
+                <button type="submit" name="crear_tarea">Crear Tarea</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mostrar elementos creados -->
+    <h3>Carpetas:</h3>
+    <ul>
+        {% for carpeta in carpetas %}
+            <li>
+                {{ carpeta.titulo }} 
+                <a href="{% url 'eliminar_item' 'carpeta' carpeta.id %}">Eliminar</a> 
+                <a href="{% url 'editar_item' 'carpeta' carpeta.id %}" class="options-button">Modificar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Proyectos:</h3>
+    <ul>
+        {% for proyecto in proyectos %}
+            <li>
+                {{ proyecto.titulo }} - Fecha: {{ proyecto.fecha_limite }} 
+                <a href="{% url 'eliminar_item' 'proyecto' proyecto.id %}">Eliminar</a> 
+                <a href="{% url 'editar_item' 'proyecto' proyecto.id %}" class="options-button">Modificar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Tareas:</h3>
+    <ul>
+        {% for tarea in tareas %}
+            <li>
+                {{ tarea.titulo }} - Fecha: {{ tarea.fecha_limite }} 
+                <a href="{% url 'eliminar_item' 'tarea' tarea.id %}">Eliminar</a> 
+                <a href="{% url 'editar_item' 'tarea' tarea.id %}" class="options-button">Modificar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+    <div>
+        <!-- Botón único para redirigir a las gráficas -->
+        <a href="{% url 'graficas' %}">
+            <button>Ver Gráficas</button>
+        </a>
+    </div>
+
+</body>
+</html>

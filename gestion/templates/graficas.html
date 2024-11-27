@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráficas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Gráficas de Progreso</h1>
+
+    <canvas id="graficaCircular"></canvas>
+    <canvas id="graficaBarras"></canvas>
+
+    <script>
+        // Datos de la gráfica
+        const completado = {{ completado_total }};
+        const en_proceso = {{ proceso_total }};
+        const pendiente = {{ pendiente_total }};
+        const retrasado = {{ retrasado_total }};
+        
+        // Gráfica Circular
+        const ctx1 = document.getElementById('graficaCircular').getContext('2d');
+        const graficaCircular = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: ['Completado', 'En Proceso', 'Pendiente', 'Retrasado'],
+                datasets: [{
+                    data: [completado, en_proceso, pendiente, retrasado],
+                    backgroundColor: ['green', 'orange', 'blue', 'red']
+                }]
+            }
+        });
+
+        // Gráfica de Barras
+        const ctx2 = document.getElementById('graficaBarras').getContext('2d');
+        const graficaBarras = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Completado', 'En Proceso', 'Pendiente', 'Retrasado'],
+                datasets: [{
+                    label: 'Estado de Tareas, Proyectos y Carpetas',
+                    data: [completado, en_proceso, pendiente, retrasado],
+                    backgroundColor: ['green', 'orange', 'blue', 'red']
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
